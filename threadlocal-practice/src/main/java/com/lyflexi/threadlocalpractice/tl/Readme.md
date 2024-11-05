@@ -1,0 +1,3 @@
+ThreadLocal可以起到线程之间数据隔离的目的
+
+但ThreadLocal是没有办法跨线程传递数值的
