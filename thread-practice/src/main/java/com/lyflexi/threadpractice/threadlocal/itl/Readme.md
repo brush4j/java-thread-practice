@@ -1,8 +1,0 @@
-正所谓有需求就有市场。为了解决这个问题，InheritableThreadLocal被设计了出来，可以实现跨线程传递ThreadLocal变量。
-
-原理是：当父线程存在InheritableThreadLocal值的时候，jdk把当前线程的InheritableThreadLocal值设置为父线程对应的值
-
-但缺陷是 ，InheritableThreadLocal重新赋值之后对于子线程不生效。原因是因为init方法只会在线程被创建的时候创建一次
-
-这在线程池场景下，就用不了，因为线程池的线程只会被初始化一次。也就是说线程池中的InheritableThreadLocal相当于只会被设置一次。
-
