@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.cigarette;
+package com.lyflexi.synclockpractice.sync.cigarette;
 
 
 /**

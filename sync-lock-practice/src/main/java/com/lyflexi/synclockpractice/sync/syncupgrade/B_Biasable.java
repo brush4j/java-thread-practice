@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.syncupgrade;
+package com.lyflexi.synclockpractice.sync.syncupgrade;
 
 import org.openjdk.jol.info.ClassLayout;
 

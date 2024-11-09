@@ -1,6 +1,6 @@
-package com.lyflexi.synclockpractice.syncmonitor.spuriouswakeup;
+package com.lyflexi.synclockpractice.sync.spuriouswakeup;
 
-public class TestNotifyAll {
+public class TestNotify {
     static final Object room = new Object();
     static boolean hasCigarette = false;
     static boolean hasTakeout = false;
@@ -53,7 +53,7 @@ public class TestNotifyAll {
             synchronized (room) {
                 hasTakeout = true;
                 System.out.println("外卖到了噢！");
-                room.notifyAll();
+                room.notify();
             }
         }, "送外卖的").start();
 
@@ -61,4 +61,3 @@ public class TestNotifyAll {
     }
 
 }
-

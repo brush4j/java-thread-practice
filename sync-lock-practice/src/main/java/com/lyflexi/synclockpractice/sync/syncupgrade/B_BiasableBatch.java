@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.syncupgrade;
+package com.lyflexi.synclockpractice.sync.syncupgrade;
 
 import lombok.extern.slf4j.Slf4j;
 import org.openjdk.jol.info.ClassLayout;

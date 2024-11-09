@@ -1,11 +1,11 @@
-package com.lyflexi.synclockpractice.syncmonitor.syncupgrade;
+package com.lyflexi.synclockpractice.sync.syncupgrade;
 
 import org.openjdk.jol.info.ClassLayout;
 
 import java.util.concurrent.TimeUnit;
 
 
-public class C_LightWeight
+public class D_HeavyWeight
 {
     public static void main(String[] args)
     {
@@ -14,9 +14,10 @@ public class C_LightWeight
         Object o = new Object();
 
         System.out.println(ClassLayout.parseInstance(o).toPrintable());
-        o.hashCode();
-        System.out.println(ClassLayout.parseInstance(o).toPrintable());
+
         synchronized (o){
+            System.out.println(ClassLayout.parseInstance(o).toPrintable());
+            o.hashCode();
             System.out.println(ClassLayout.parseInstance(o).toPrintable());
         }
 

@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.feat;
+package com.lyflexi.synclockpractice.sync.feat;
 
 import lombok.extern.slf4j.Slf4j;
 

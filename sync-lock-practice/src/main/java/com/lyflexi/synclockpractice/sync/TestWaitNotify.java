@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor;
+package com.lyflexi.synclockpractice.sync;
 
 /**
  * @Author: ly

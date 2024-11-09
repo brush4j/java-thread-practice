@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.classLevel;
+package com.lyflexi.synclockpractice.sync.classLevel;
 
 /**
  * @Author: ly

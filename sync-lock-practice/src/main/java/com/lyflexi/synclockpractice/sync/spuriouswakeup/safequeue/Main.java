@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.spuriouswakeup.safequeue;
+package com.lyflexi.synclockpractice.sync.spuriouswakeup.safequeue;
 
 import java.util.ArrayList;
 

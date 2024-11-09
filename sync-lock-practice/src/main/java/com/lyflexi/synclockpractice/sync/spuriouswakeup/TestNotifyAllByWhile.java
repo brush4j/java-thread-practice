@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.syncmonitor.spuriouswakeup;
+package com.lyflexi.synclockpractice.sync.spuriouswakeup;
 
 /**
  * 一个线程可能会在被notifyAll时虚假唤醒，
