@@ -18,6 +18,7 @@ public class SpinLockDemo
     {
         Thread thread = Thread.currentThread();
         System.out.println(Thread.currentThread().getName()+"\t"+"----come in");
+        //cas成功，则不进入循环
         while (!atomicReference.compareAndSet(null, thread)) {
 
         }
