@@ -16,12 +16,12 @@ public class DaemonTest {
                 }
                 log.debug("子线程正在循环");
             }
-            log.debug("结束");
+            log.debug(Thread.currentThread()+"结束");
         }, "t1");
         t1.setDaemon(true);
         t1.start();
 
         Thread.sleep(1);
-        log.debug("结束");
+        log.debug("main-结束");
     }
 }
