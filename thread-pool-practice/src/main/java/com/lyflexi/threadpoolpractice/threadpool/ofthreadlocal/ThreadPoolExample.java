@@ -1,4 +1,4 @@
-package com.lyflexi.threadpoolpractice.threadpool;
+package com.lyflexi.threadpoolpractice.threadpool.ofthreadlocal;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
