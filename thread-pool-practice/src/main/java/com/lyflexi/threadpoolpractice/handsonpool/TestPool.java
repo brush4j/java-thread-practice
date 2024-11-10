@@ -18,7 +18,8 @@ public class TestPool {
                 1000, 
                 TimeUnit.MILLISECONDS, 
                 1, 
-                //下面的函数式接口接收两个由底层回传的参数queue, task
+                //下面的函数式接口作为用户的自定义逻辑传入底层
+                //反过来，函数式接口接收两个由底层回传的参数queue, task
                 // 1.这里拿到的queue和ThreadPool构造创建出的queue是同一个
                 // 2.这里拿到的task和ThreadPool#execute中用户传入的task是同一个
                 (queue, task)->{
