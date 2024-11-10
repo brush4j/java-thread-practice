@@ -18,7 +18,7 @@
         <module>thread-practice</module>
         <module>eliminateSynchronized</module>
         <module>threadlocal-practice</module>
-        <module>sync-lock-practice</module>
+        <module>sync-juc-practice</module>
         <module>thread-pool-practice</module>
         <module>thread-design-pattern</module>
     </modules>
