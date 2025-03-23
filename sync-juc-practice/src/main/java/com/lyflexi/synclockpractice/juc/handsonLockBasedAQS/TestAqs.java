@@ -1,16 +1,19 @@
 package com.lyflexi.synclockpractice.juc.handsonLockBasedAQS;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @Author: ly
  * @Date: 2024/3/12 16:55
  */
+@Slf4j(topic = "c.TestAqs")
 public class TestAqs {
     public static void main(String[] args) {
         MyLock lock = new MyLock();
         new Thread(() -> {
             lock.lock();
             try {
-                System.out.println("locking...");
+                log.info("locking...");
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -18,7 +21,7 @@ public class TestAqs {
                 }
 //                sleep(1);
             } finally {
-                System.out.println("unlocking...");
+                log.info("unlocking...");
                 lock.unlock();
             }
         },"t1").start();
@@ -26,9 +29,9 @@ public class TestAqs {
         new Thread(() -> {
             lock.lock();
             try {
-                System.out.println("locking...");
+                log.info("locking...");
             } finally {
-                System.out.println("unlocking...");
+                log.info("unlocking...");
                 lock.unlock();
             }
         },"t2").start();

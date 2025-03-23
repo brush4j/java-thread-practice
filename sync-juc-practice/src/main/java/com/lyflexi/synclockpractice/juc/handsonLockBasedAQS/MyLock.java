@@ -4,11 +4,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-
-
-
-
-// 自定义锁（不可重入锁）
+/**
+ *自定义锁（简单起见，实现个不可重入锁）
+ *
+ * 子类主要实现这样一些方法（默认抛出 UnsupportedOperationException）
+ *  tryAcquire
+ *  tryRelease
+ *  tryAcquireShared
+ *  tryReleaseShared
+ *  isHeldExclusively
+ */
 class MyLock implements Lock {
 
     // 独占锁  同步器类
@@ -25,9 +30,10 @@ class MyLock implements Lock {
 
         @Override
         protected boolean tryRelease(int arg) {
-            setExclusiveOwnerThread(null);
             //解锁的时候当前线程拥有锁，必定没有其他线程竞争，因此不需要compareAndSetState
-            setState(0);//state是volitile,此处会加写屏障，保证上一行代码exclusiveOwnerThread刷新到主存
+            setExclusiveOwnerThread(null);
+            //state是volitile,此处会加写屏障：保证上一行代码setExclusiveOwnerThread刷新到主存
+            setState(0);
             return true;
         }
 
@@ -48,6 +54,10 @@ class MyLock implements Lock {
         sync.acquire(1);
     }
 
+    /**
+     * 这一点是aqs比synchronized灵活的地方，可以实现可打断的加锁
+     * @throws InterruptedException
+     */
     @Override // 加锁，可打断
     public void lockInterruptibly() throws InterruptedException {
         sync.acquireInterruptibly(1);
