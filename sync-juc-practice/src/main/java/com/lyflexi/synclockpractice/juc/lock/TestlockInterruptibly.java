@@ -30,20 +30,17 @@ public class TestlockInterruptibly {
             }
         }, "t1");
 
-
         lock.lock();
         log.debug("主线程获得了锁");
         //t1延时启动，后获得锁
-        t1.start();
         try {
             Thread.sleep(1000);
-            t1.interrupt();
-            log.debug("执行打断");
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
-            lock.unlock();
         }
-
+        t1.start();
+        t1.interrupt();
+        log.debug("执行打断");
+        lock.unlock();
     }
 }
