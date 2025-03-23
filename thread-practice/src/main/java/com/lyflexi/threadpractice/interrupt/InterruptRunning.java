@@ -15,7 +15,8 @@ public class InterruptRunning {
         Thread t1 = new Thread(() -> {
             while (true) {
                 if (Thread.currentThread().isInterrupted()) {
-                    System.out.println(Thread.currentThread().getName() + "\t isInterrupted()返回true，并清除中断状态设置为flase，程序停止");
+                    System.out.println(Thread.currentThread().getName() + "\t isInterrupted()返回true，程序员自行写响应逻辑，比如设置t1线程终止");
+                    System.out.println("-----t1的中断标志位：" + Thread.currentThread().isInterrupted());
                     break;
                 }
                 System.out.println("t1 -----hello interrupt api");
