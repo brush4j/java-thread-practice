@@ -1,16 +1,13 @@
-package com.lyflexi.threadpoolpractice.handsonpoolv2;
+package com.lyflexi.threadpoolpractice.handsonpoolv1;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author liuyanoutsee@outlook.com
- **/
 public class Main {
     public static void main(String[] args) {
 //        test01();
-//        test02();
-        test03();
+        test02();
+//        test03();
     }
 
     /**
@@ -24,10 +21,10 @@ public class Main {
      * 符合预期
      */
     public static void test01(){
-        ThreadPoolV2 threadPoolV2 = new ThreadPoolV2(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new ThrowRejectHandle());
+        ThreadPoolV1 threadPoolV1 = new ThreadPoolV1(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new ThrowRejectHandle());
         for (int i = 0; i < 6; i++) {
             final int taski = i+1;
-            threadPoolV2.execute(() -> {
+            threadPoolV1.execute(() -> {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -47,10 +44,10 @@ public class Main {
      * 符合预期
      */
     public static void test02(){
-        ThreadPoolV2 threadPoolV2 = new ThreadPoolV2(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new ThrowRejectHandle());
+        ThreadPoolV1 threadPoolV1 = new ThreadPoolV1(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new ThrowRejectHandle());
         for (int i = 0; i < 8; i++) {
             final int taski = i+1;
-            threadPoolV2.execute(() -> {
+            threadPoolV1.execute(() -> {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -70,10 +67,10 @@ public class Main {
      * 但不抛异常
      */
     public static void test03(){
-        ThreadPoolV2 threadPoolV2 = new ThreadPoolV2(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new DiscardRejectHandle());
+        ThreadPoolV1 threadPoolV1 = new ThreadPoolV1(2, 4, 1, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2),new DiscardRejectHandle());
         for (int i = 0; i < 8; i++) {
             final int taski = i+1;
-            threadPoolV2.execute(() -> {
+            threadPoolV1.execute(() -> {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -84,5 +81,4 @@ public class Main {
         }
         System.out.println("主线程没有被阻塞");
     }
-
 }
