@@ -1,4 +1,4 @@
-package com.lyflexi.threadpoolpractice.handsonpool;
+package com.lyflexi.threadpoolpractice.handsonpool_ms;
 
 import lombok.extern.slf4j.Slf4j;
 

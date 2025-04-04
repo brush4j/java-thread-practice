@@ -1,4 +1,4 @@
-package com.lyflexi.threadpoolpractice.handsonpoolv2;
+package com.lyflexi.threadpoolpractice.handsonpool_ss_v2;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.TimeUnit;

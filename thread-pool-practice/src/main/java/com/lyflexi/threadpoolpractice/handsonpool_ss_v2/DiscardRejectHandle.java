@@ -1,4 +1,4 @@
-package com.lyflexi.threadpoolpractice.handsonpoolv2;
+package com.lyflexi.threadpoolpractice.handsonpool_ss_v2;
 
 /**
  * @author liuyanoutsee@outlook.com

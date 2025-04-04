@@ -1,11 +1,11 @@
-package com.lyflexi.threadpoolpractice.handsonpoolv2;
+package com.lyflexi.threadpoolpractice.handsonpool_ss_v1;
 
 /**
  * @author liuyanoutsee@outlook.com
  **/
 public class ThrowRejectHandle implements RejectHandle {
     @Override
-    public void reject(Runnable rejectCommand, ThreadPoolV2 threadPool) {
+    public void reject(Runnable rejectCommand, ThreadPoolV1 threadPool) {
         throw new RuntimeException("阻塞队列满了！");
     }
 }
