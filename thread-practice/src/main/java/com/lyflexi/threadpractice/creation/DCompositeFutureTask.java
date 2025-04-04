@@ -8,7 +8,7 @@ import java.util.concurrent.FutureTask;
  * @Author: ly
  * @Date: 2024/2/6 14:00
  */
-public class DependFutureTask {
+public class DCompositeFutureTask {
     public static void main(String[] args) {
         //3.创建Callable接口实现类的对象
         MyCallable mc = new MyCallable();

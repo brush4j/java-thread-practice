@@ -6,7 +6,7 @@ import java.util.concurrent.*;
  * @Author: ly
  * @Date: 2024/2/6 14:05
  */
-public class MyCompletableFuture {
+public class ECompletableFuture {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
