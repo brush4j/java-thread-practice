@@ -10,12 +10,13 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 救急线程的线程池
+ * 救急线程的线程池：
+ *
  */
-public class ThreadPool2 {
+public class ThreadPool3 {
 
     /**
-     * 工作线程
+     * 工作线程: 核心线程+辅助线程
      */
     private final List<Worker> workers = new ArrayList<>();
     /**
@@ -35,7 +36,7 @@ public class ThreadPool2 {
      */
     private final long keepAliveTime;
 
-    public ThreadPool2(int corePoolSize,
+    public ThreadPool3(int corePoolSize,
                        int maximumPoolSize,
                        long keepAliveTime,
                        TimeUnit timeUnit,

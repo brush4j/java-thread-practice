@@ -9,6 +9,14 @@ public class ThreadPoolTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //你会发现到最后，核心线程数均销毁了，原因是发生了线程安全问题
         /**
+         * - 核心线程为1
+         * - 最大线程为3
+         * - 超时时间为2
+         * - 队列长度为2
+         * - 客户提交了4个任务
+         * 这个场景下核心线程数创建了1个，辅助线程数创建了1个，但你发现到最后，两个线程均销毁了，原因是发生了线程安全问题
+         *
+         *
          * 提交任务1START
          * 提交任务1END
          * 提交任务2START
@@ -38,7 +46,7 @@ public class ThreadPoolTest {
          *             }
          */
         //ThreadPool3使用原子计数器解决了线程安全问题
-        ThreadPool3 threadPool = new ThreadPool3(1, 3, 2, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
+        ThreadPool4 threadPool = new ThreadPool4(1, 3, 2, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
 
         for (int i = 1; i <= 4; i++) {
             int index = i;

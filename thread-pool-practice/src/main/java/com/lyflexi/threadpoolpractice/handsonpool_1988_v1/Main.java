@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Main {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-         SimpleThreadPool threadPool = new SimpleThreadPool(1, new ArrayBlockingQueue<>(2));
+         SimpleThreadPool1 threadPool = new SimpleThreadPool1(1, new ArrayBlockingQueue<>(2));
 
         for (int i = 1; i <= 4; i++) {
             int index = i;

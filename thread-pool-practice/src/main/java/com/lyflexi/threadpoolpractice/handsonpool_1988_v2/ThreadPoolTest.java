@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 public class ThreadPoolTest {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-         ThreadPool1 threadPool = new ThreadPool1(1, new ArrayBlockingQueue<>(2));
+         ThreadPool2 threadPool = new ThreadPool2(1, new ArrayBlockingQueue<>(2));
 
         for (int i = 1; i <= 4; i++) {
             int index = i;

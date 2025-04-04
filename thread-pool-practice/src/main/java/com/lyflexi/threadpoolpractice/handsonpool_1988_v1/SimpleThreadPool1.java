@@ -14,7 +14,7 @@ import java.util.concurrent.BlockingQueue;
  * @Description:
  */
 @Slf4j
-public class SimpleThreadPool {
+public class SimpleThreadPool1 {
 
     /**
      * 任务队列
@@ -31,7 +31,7 @@ public class SimpleThreadPool {
      * @param poolSize  线程数
      * @param workQueue 任务队列
      */
-    public SimpleThreadPool(int poolSize, BlockingQueue<Runnable> workQueue) {
+    public SimpleThreadPool1(int poolSize, BlockingQueue<Runnable> workQueue) {
         this.workQueue = workQueue;
         // 创建线程，并加入线程池
         for (int i = 0; i < poolSize; i++) {

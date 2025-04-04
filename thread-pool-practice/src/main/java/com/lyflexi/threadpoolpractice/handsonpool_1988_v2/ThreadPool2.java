@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * 拒绝策略的线程池
  */
-public class ThreadPool1 {
+public class ThreadPool2 {
 
     /**
      * 任务队列
@@ -32,7 +32,7 @@ public class ThreadPool1 {
      * @param poolSize  线程数
      * @param workQueue 任务队列
      */
-    public ThreadPool1(int poolSize, BlockingQueue<Runnable> workQueue) {
+    public ThreadPool2(int poolSize, BlockingQueue<Runnable> workQueue) {
         // 创建线程池。此时不直接初始化线程，execute提交任务时再初始化
         this.workQueue = workQueue;
         this.poolSize = poolSize;

@@ -12,13 +12,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 线程安全的线程池
+ *
+ * 解决办法是使用原子类，对workerSize进行单独计数，并且搭配for (; ; )编码技巧：
+ *
+ * - addWorker的计数+1逻辑，改造为for (; ; )，保证并发时workerCount正确+1计数，CAS+1失败了要重试
+ * - getTaskFromQueue的技术-1逻辑，改造为for (; ; )，保证并发时workerCount正确-1计数，CAS-1失败了要重试
  */
-public class ThreadPool3 {
+public class ThreadPool4 {
     // 【新增】原子类，对线程池中的线程进行计数
     private final AtomicInteger ctl = new AtomicInteger(0);
 
     /**
-     * 工作线程
+     * 工作线程: 核心线程+辅助线程
      */
     private final List<Worker> workers = new ArrayList<>();
     /**
@@ -38,7 +43,7 @@ public class ThreadPool3 {
      */
     private final long keepAliveTime;
 
-    public ThreadPool3(int corePoolSize,
+    public ThreadPool4(int corePoolSize,
                        int maximumPoolSize,
                        long keepAliveTime,
                        TimeUnit timeUnit,
@@ -77,7 +82,7 @@ public class ThreadPool3 {
     }
 
     private boolean addWorker(Runnable task, boolean core) {
-        // 保证并发时workerCount正确计数，失败了要重试
+        // 保证并发时workerCount正确计数，compareAndIncrementWorkerCount失败了要重试
         for (; ; ) {
             int wc = ctl.get(); // 从计数器获取count
             if (wc >= (core ? corePoolSize : maximumPoolSize)) {
@@ -97,7 +102,7 @@ public class ThreadPool3 {
     private Runnable getTaskFromQueue() {
         boolean timedOut = false;
 
-        // 循环获取任务
+        // 循环获取任务，保证并发时workerCount正确计数，compareAndDecrementWorkerCount失败了要重试
         for (; ; ) {
 
             // 从计数器获取count

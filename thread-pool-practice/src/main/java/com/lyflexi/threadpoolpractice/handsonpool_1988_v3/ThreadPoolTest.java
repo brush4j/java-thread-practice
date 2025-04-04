@@ -8,7 +8,7 @@ public class ThreadPoolTest {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-         ThreadPool2 threadPool = new ThreadPool2(1, 3, 2, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
+         ThreadPool3 threadPool = new ThreadPool3(1, 3, 2, TimeUnit.SECONDS, new ArrayBlockingQueue<>(2));
 
         for (int i = 1; i <= 4; i++) {
             int index = i;
