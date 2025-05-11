@@ -1,4 +1,4 @@
-package com.hm.synccollectionpractice;
+package com.hm.synccollectionpractice.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Collections;
  * @Version: 1.0.0
  * @Description:
  */
-public class SyncCollection {
+public class SyncCollectionV1UtilUnsafe {
     public static void main(String[] args) {
         //这是一个使用装饰器模式（组合）实现的线程安全集合，可以看源码
         Collection<String> syncCollection = Collections.synchronizedCollection(new ArrayList<String>());
@@ -132,19 +132,13 @@ public class SyncCollection {
     /**
      * 非原子操作会发生线程不安全，即使被操作对象是syncCollection
      * @param syncCollection
+     *
+     * 存在概率连续添加两次init
      */
     private static void unAutomicAdd(Collection<String> syncCollection) {
         if (syncCollection.isEmpty()) {
             syncCollection.add("init");
         }
     }
-
-    /*
-    打印结果，发生了不安全
-    * [init, init]
-    *
-    *  Process finished with exit code 0
-    * */
-
 
 }
