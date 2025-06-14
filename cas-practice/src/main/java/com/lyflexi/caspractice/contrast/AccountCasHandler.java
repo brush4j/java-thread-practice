@@ -27,7 +27,7 @@ public class AccountCasHandler implements IAccountHandler {
     }
 
     @Override
-    public void withdraw(Integer amount) {
+    public void process(Integer amount) {
         /*while(true) {
             // 获取余额的最新值
             int prev = balance.get();

@@ -12,12 +12,12 @@ package com.lyflexi.caspractice.contrast;
 public class Main {
     public static void main(String[] args) {
         IAccountHandler accountUnsafeHandler = new AccountUnsafeHandler(10000);
-        accountUnsafeHandler.withdraw(accountUnsafeHandler);
+        accountUnsafeHandler.process(accountUnsafeHandler);
 
         IAccountHandler accountSyncHandler = new AccountSyncHandler(10000);
-        accountUnsafeHandler.withdraw(accountSyncHandler);
+        accountUnsafeHandler.process(accountSyncHandler);
 
         IAccountHandler accountCasHandler = new AccountCasHandler(10000);
-        accountUnsafeHandler.withdraw(accountCasHandler);
+        accountUnsafeHandler.process(accountCasHandler);
     }
 }

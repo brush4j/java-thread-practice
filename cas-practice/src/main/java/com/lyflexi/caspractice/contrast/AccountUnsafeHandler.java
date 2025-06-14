@@ -23,7 +23,7 @@ public class AccountUnsafeHandler implements IAccountHandler {
     }
 
     @Override
-    public void withdraw(Integer amount) {
+    public void process(Integer amount) {
         this.balance -= amount;
     }
 }

@@ -24,7 +24,7 @@ public class AccountSyncHandler implements IAccountHandler {
     }
 
     @Override
-    public void withdraw(Integer amount) {
+    public void process(Integer amount) {
         synchronized (this) {
             this.balance -= amount;
         }

@@ -17,17 +17,17 @@ public interface IAccountHandler {
     Integer getBalance();
 
     // 取款
-    void withdraw(Integer amount);
+    void process(Integer amount);
 
     /**
      * 方法内会启动 1000 个线程，每个线程做 -10 元 的操作
      * 如果初始余额为 10000 那么正确的结果应当是 0
      */
-    default void withdraw(IAccountHandler handler) {
+    default void process(IAccountHandler handler) {
         List<Thread> ts = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
             ts.add(new Thread(() -> {
-                handler.withdraw(10);
+                handler.process(10);
             }));
         }
         long start = System.nanoTime();
