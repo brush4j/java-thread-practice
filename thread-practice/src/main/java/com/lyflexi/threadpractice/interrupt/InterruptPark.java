@@ -69,10 +69,11 @@ public class InterruptPark {
             LockSupport.park();
             log.debug("unpark...");
             log.debug("被打断后的打断状态：{}", Thread.currentThread().isInterrupted());
-            Thread.interrupted();
-            log.debug("静态方法Thread.interrupted()重设false打断状态：{}", Thread.currentThread().isInterrupted());
-            LockSupport.park();
             log.debug("被interrupte打断之后，无法再次进入park...");
+            Thread.interrupted();
+            log.debug("静态方法Thread.interrupted()重设false打断状态：{}，之后继续可以阻塞", Thread.currentThread().isInterrupted());
+            LockSupport.park();
+            log.debug("继续可以阻塞");
         }, "t1");
         t1.start();
 
