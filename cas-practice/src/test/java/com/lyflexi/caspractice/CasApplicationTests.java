@@ -1,10 +1,10 @@
-package com.lyflexi.synccaspractice;
+package com.lyflexi.caspractice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SyncCasApplicationTests {
+class CasApplicationTests {
 
     @Test
     void contextLoads() {

@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.lyflexi</groupId>
-    <artifactId>sync-cas-practice</artifactId>
+    <artifactId>cas-practice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>sync-cas-practice</name>
+    <name>cas-practice</name>
     <description>sync-cas-practice</description>
     <url/>
     <licenses>

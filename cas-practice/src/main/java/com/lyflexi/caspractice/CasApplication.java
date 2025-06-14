@@ -1,13 +1,13 @@
-package com.lyflexi.synccaspractice;
+package com.lyflexi.caspractice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SyncCasApplication {
+public class CasApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SyncCasApplication.class, args);
+        SpringApplication.run(CasApplication.class, args);
     }
 
 }
