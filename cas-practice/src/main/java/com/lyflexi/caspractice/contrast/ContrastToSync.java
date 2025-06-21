@@ -9,7 +9,7 @@ package com.lyflexi.caspractice.contrast;
  * @modifiedBy：
  * @version: 1.0
  */
-public class Main {
+public class ContrastToSync {
     public static void main(String[] args) {
         IAccountHandler accountUnsafeHandler = new AccountUnsafeHandler(10000);
         accountUnsafeHandler.process(accountUnsafeHandler);
