@@ -34,6 +34,11 @@
             <artifactId>jol-core</artifactId>
             <version>${jol.core.version}</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
