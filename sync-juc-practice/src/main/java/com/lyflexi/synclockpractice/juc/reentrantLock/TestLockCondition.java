@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.juc.lock;
+package com.lyflexi.synclockpractice.juc.reentrantLock;
 
 import lombok.extern.slf4j.Slf4j;
 
