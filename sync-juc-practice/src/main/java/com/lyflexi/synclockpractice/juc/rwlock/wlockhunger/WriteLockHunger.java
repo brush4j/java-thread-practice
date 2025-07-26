@@ -1,4 +1,4 @@
-package com.lyflexi.synclockpractice.juc.rwlock;
+package com.lyflexi.synclockpractice.juc.rwlock.wlockhunger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,7 +9,7 @@ package com.lyflexi.synclockpractice.juc.rwlock;
  * @modifiedBy：
  * @version: 1.0
  */
-public class TestReadWriteLock {
+public class WriteLockHunger {
     public static void main(String[] args) throws InterruptedException {
 //        rr();
         rw();

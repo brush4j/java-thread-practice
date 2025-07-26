@@ -15,56 +15,50 @@ import java.util.concurrent.locks.StampedLock;
  */
 @Slf4j
 public class DataContainerStamped {
-    private int data;
+    private int localData;
     private final StampedLock lock = new StampedLock();
 
     public DataContainerStamped(int data) {
-        this.data = data;
+        this.localData = data;
     }
 
-    public int read(int readTime) {
+    public int read() {
         long stamp = lock.tryOptimisticRead();
         log.debug("optimistic read locking...{}", stamp);
+
         try {
-            Thread.sleep(readTime);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
         if (lock.validate(stamp)) {
-            log.debug("read finish...{}, data:{}", stamp, data);
-            return data;
+            log.debug("read finish...{}, data:{}", stamp, localData);
+            return localData;
         }
-        // 锁升级 - 读锁
-        log.debug("updating to read lock... {}", stamp);
+
+        // 乐观读锁升级 - 读锁
         try {
             stamp = lock.readLock();
-            log.debug("read lock {}", stamp);
+            log.debug("updating to read lock...{}", stamp);
             try {
-                Thread.sleep(readTime);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            log.debug("read finish...{}, data:{}", stamp, data);
-            return data;
+            log.debug("read finish...{}, data:{}", stamp, localData);
+            return localData;
         } finally {
-            log.debug("read unlock {}", stamp);
             lock.unlockRead(stamp);
+            log.debug("read unlock {}", stamp);
         }
     }
 
     public void write(int newData) {
         long stamp = lock.writeLock();
         log.debug("write lock {}", stamp);
-        try {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            this.data = newData;
-        } finally {
-            log.debug("write unlock {}", stamp);
-            lock.unlockWrite(stamp);
-        }
+        this.localData = newData;
+        lock.unlockWrite(stamp);
+        log.debug("write unlock {}", stamp);
     }
 }
