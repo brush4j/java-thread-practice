@@ -1,5 +1,7 @@
 package com.lyflexi.threaddesignpattern.divideandconquer;
 
+import lombok.Data;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
@@ -26,30 +29,115 @@ import java.util.stream.IntStream;
  */
 public class TestWordCount {
     public static void main(String[] args) {
+        /**
+         * 虽然ConcurrentHashMap是线程安全的集合，但不代表get+put合起来是原子的
+         */
         process1(
+                () -> new ConcurrentHashMap<String, Long>(8,0.75f,8),
 
+                (map, words) -> {
+                    for (String word : words) {
+                        // 检查 key 有没有
+                        Long v = map.get(word);
+                        if (Objects.isNull(v)){
+                            v = 0L;
+                        }
+                        v++;
+                        map.put(word, v);
+                    }
+                }
+        );
 
+        /**
+         * 不推荐使用synchronized锁定整个map，性能太差了
+         */
+        process1(
+                () -> new ConcurrentHashMap<String, Long>(8,0.75f,8),
+
+                (map, words) -> {
+                    for (String word : words) {
+                        synchronized (map){
+                            // 检查 key 有没有
+                            Long v = map.get(word);
+                            if (Objects.isNull(v)){
+                                v = 0L;
+                            }
+                            v++;
+                            map.put(word, v);
+                        }
+                    }
+                }
+        );
+
+        /**
+         * ConcurrentHashMap正确使用方式如下：computeIfAbsent一步操作，相当于get+put二合一
+         *
+         * 虽说源码中putVal/computeIfAbsent也是用了synchronized，但是没有整个哈希表，而是只锁了单一链表头
+         *
+         * 懒加载初始化tab
+         * for (Node<K,V>[] tab = table;;) {
+         *      Node<K,V> f; int n, i, fh; K fk; V fv;
+         *      if (tab == null || (n = tab.length) == 0)
+         *          tab = initTable();
+         *      else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+         *            if (casTabAt(tab, i, null, new Node<K,V>(hash, key, value)))
+         *                break;                   // no lock when adding to empty bin
+         *      }
+         *      ...
+         *      else{
+         *          V oldVal = null;
+         *          synchronized (f) {
+         *            if (tabAt(tab, i) == f) {
+         *               ...
+         *            }
+         *         }
+         *         if (binCount != 0) {
+         *             if (binCount >= TREEIFY_THRESHOLD)
+         *                 treeifyBin(tab, i);
+         *             if (oldVal != null)
+         *                 return oldVal;
+         *             break;
+         *         }
+         *      }
+         * }
+         */
+        process1(
                 () -> new ConcurrentHashMap<String, LongAdder>(8,0.75f,8),// 创建 map 集合
 
                 (map, words) -> {
                     for (String word : words) {
-
-                        // 如果缺少一个 key，则计算生成一个 value , 然后将  key value 放入 map
-                        //                  a      0
                         LongAdder value = map.computeIfAbsent(word, (key) -> new LongAdder());
-                        // 执行累加
-                        value.increment(); // 2
+                        value.increment();
+                    }
+                }
+        );
 
-                        /*// 检查 key 有没有
-                        Integer counter = map.get(word);
-                        int newValue = counter == null ? 1 : counter + 1;
-                        // 没有 则 put
-                        map.put(word, newValue);*/
+        /**
+         * 自定义个线程安全的累加器LongReference也可以，模拟LongAdder，只是性能比不过LongAdder
+         */
+        process1(
+                () -> new ConcurrentHashMap<String, LongReference>(8,0.75f,8),// 创建 map 集合
+
+                (map, words) -> {
+                    for (String word : words) {
+                        LongReference value = map.computeIfAbsent(word, (key) -> new LongReference());
+                        value.increment();
                     }
                 }
         );
 
         process2();
+    }
+
+    @Data
+    static class LongReference {
+        private Long value;
+        public LongReference() {
+            this.value = 0L;
+        }
+        public synchronized void increment() {
+            value++;
+        }
     }
 
 
