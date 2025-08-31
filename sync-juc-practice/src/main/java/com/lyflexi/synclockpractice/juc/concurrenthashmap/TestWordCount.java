@@ -70,36 +70,73 @@ public class TestWordCount {
         );
 
         /**
-         * ConcurrentHashMap正确使用方式如下：computeIfAbsent一步操作，相当于get+put二合一
+         * ConcurrentHashMap正确使用方式如下：computeIfAbsent一步操作，相当于
+         * 1. get不存在, 则初始化数组头节点/或者初始化链表尾节点, 返回
+         * 2. get存在, 则直接返回旧值
          *
-         * 虽说源码中putVal/computeIfAbsent也是用了synchronized，但是没有整个哈希表，而是只锁了单一链表头
+         * 源码实现思路如下,
+         * 1. 如果value(头节点f)为空, 创建个预留节点r当作头节点用synchronized锁住, 然后初始化真正的value设置给数组的头节点, 之后分支break返回
+         * 同时在锁块内通过casTabAt再次判断value是否为空, 达到了DCL的目的
          *
-         * 懒加载初始化tab
-         * for (Node<K,V>[] tab = table;;) {
-         *      Node<K,V> f; int n, i, fh; K fk; V fv;
-         *      if (tab == null || (n = tab.length) == 0)
-         *          tab = initTable();
-         *      else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
-         *            if (casTabAt(tab, i, null, new Node<K,V>(hash, key, value)))
-         *                break;                   // no lock when adding to empty bin
-         *      }
-         *      ...
-         *      else{
-         *          V oldVal = null;
-         *          synchronized (f) {
-         *            if (tabAt(tab, i) == f) {
-         *               ...
-         *            }
-         *         }
-         *         if (binCount != 0) {
-         *             if (binCount >= TREEIFY_THRESHOLD)
-         *                 treeifyBin(tab, i);
-         *             if (oldVal != null)
-         *                 return oldVal;
-         *             break;
-         *         }
-         *      }
-         * }
+         *
+         *             else if ((f = tabAt(tab, i = (n - 1) & h)) == null) {
+         *                 Node<K,V> r = new ReservationNode<K,V>();
+         *                 synchronized (r) {
+         *                     if (casTabAt(tab, i, null, r)) {
+         *                         binCount = 1;
+         *                         Node<K,V> node = null;
+         *                         try {
+         *                             if ((val = mappingFunction.apply(key)) != null)
+         *                                 node = new Node<K,V>(h, key, val, null);
+         *                         } finally {
+         *                             setTabAt(tab, i, node);
+         *                         }
+         *                     }
+         *                 }
+         *                 if (binCount != 0)
+         *                     break;
+         *             }
+         * 2. 第二个synchronized块, 依旧是DCL
+         *    如果value(头节点f)存在, 则先跟据头节点和输入key确定是否key存在, 存在则直接返回旧值val . 然后根据e = e.next遍历链表, 直到找到相同key的节点break返回旧的节点值val
+         *                         直到链表尾部都没找到(e = e.next) == null , 则尾插法追增链表节点,   完美🆒
+         *                synchronized (f) {
+         *                     if (tabAt(tab, i) == f) {
+         *                         if (fh >= 0) {
+         *                             binCount = 1;
+         *                             for (Node<K,V> e = f;; ++binCount) {
+         *                                 K ek; V ev;
+         *                                 //为什么先用hash和key进行==比较, 因为==的效率高于equals
+         *                                 if (e.hash == h &&
+         *                                     ((ek = e.key) == key ||
+         *                                      (ek != null && key.equals(ek)))) {
+         *                                     val = e.val;
+         *                                     break;
+         *                                 }
+         *                                 Node<K,V> pred = e;
+         *                                 if ((e = e.next) == null) {
+         *                                     if ((val = mappingFunction.apply(key)) != null) {
+         *                                         added = true;
+         *                                         pred.next = new Node<K,V>(h, key, val, null);
+         *                                     }
+         *                                     break;
+         *                                 }
+         *                             }
+         *                         }
+         *                         else if (f instanceof TreeBin) {
+         *                             binCount = 2;
+         *                             TreeBin<K,V> t = (TreeBin<K,V>)f;
+         *                             TreeNode<K,V> r, p;
+         *                             if ((r = t.root) != null &&
+         *                                 (p = r.findTreeNode(h, key, null)) != null)
+         *                                 val = p.val;
+         *                             else if ((val = mappingFunction.apply(key)) != null) {
+         *                                 added = true;
+         *                                 t.putTreeVal(h, key, val);
+         *                             }
+         *                         }
+         *                     }
+         *                 }
+         *
          */
         process1(
                 () -> new ConcurrentHashMap<String, LongAdder>(8,0.75f,8),// 创建 map 集合
