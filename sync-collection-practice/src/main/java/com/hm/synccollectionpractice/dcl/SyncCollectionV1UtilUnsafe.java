@@ -1,4 +1,4 @@
-package com.hm.synccollectionpractice.utils;
+package com.hm.synccollectionpractice.dcl;
 
 import java.util.ArrayList;
 import java.util.Collection;
